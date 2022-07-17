@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--Main layout-->
+<main>
+    <div class="container table-responsive">
+        <h2 class="text-center">Order Summary</h2>
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th scope="col">Item Title</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Item Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_item in object.items.all %}
+                <tr>
+
+                    <th>{{ order_item.item.title }}</th>
+                    <td>
+                        {% if order_item.item.discount_price %}
+                        ${{ order_item.item.discount_price }} <span class="badge badge-primary">discounted</span>
+                        {% else %}
+                        ${{ order_item.item.price }}
+                        {% endif %}
+                    </td>
+                    <td>{{ order_item.quantity }}</td>
+                    <td>
+                        {% if order_item.item.discount_price %}
+                        ${{ order_item.get_total_discount_item_price }}
+                        <span class="badge badge-primary">Saving: ${{ order_item.get_amount_saved }}</span>
+                        {% else %}
+                        ${{ order_item.get_total_item_price }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</main>
+<!--Main layout-->
+
+
+
+
+{% endblock content %}
